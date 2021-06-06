@@ -31,9 +31,13 @@ textarea {
 }
 
 .row {
-  white-space: pre-wrap;
+  white-space: pre-wrap; 
+  display: flex;
+  justify-content: flex-start;
   height: 50px;
   border-top: 1px solid white; 
+  background-color: silver; 
+  margin-bottom: 15px;
 }
 
 .col-1 {

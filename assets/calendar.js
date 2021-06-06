@@ -1,11 +1,13 @@
 //LOGIC TO GENERATE CALENDAR EVENT BEHAVIOR
-// var today = moment();
-var times = [8,9,10,11,12,1,2,3,4,5]; 
+var today = moment(); 
+var times = ["8 AM","9 AM","10 AM","11 AM","12 PM","1 PM","2 PM","3 PM","4 PM","5 PM"]; 
+var manipDate = new moment().set({'hour': 8});
+
 
 function currentTime() {
     var currTime = setInterval(function () {
         // console.log("timer running"); 
-        var today = moment(); 
+        today = moment(); 
         $("#currentDay").text(today.format("dddd, MMMM Do YYYY, hh:mm:ss a"));
     }, 1000);
   }
@@ -13,25 +15,17 @@ function currentTime() {
 currentTime();
 
 function buildCalendar() {
+    var url = "./assets/lock_sm.png";
     //build the rows
     for(i = 0; i < times.length; i++) {
-        var tempCont = document.getElementById("calendarContainer");
-        var tempDiv = document.createElement("div");
-        tempCont.appendChild(tempDiv).classList.add("row");
-        tempCont.classList.add("row");
+        $('#calendarContainer').append(`
+            <div class="row">
+            <div class="col-1">${manipDate.format("h a")}</div>
+            <div class="col-10">info here</div>
+            <div class="col-1"><img src='${url}'></div>
+            `);
+        manipDate.add(1, 'hour');
     }
-    //add the columns
-    var allRows = document.getElementById("calendarContainer").children;
-
-    $.each(allRows, function(){
-       var tDiv1 = document.createElement("div");
-       this.appendChild(tDiv1).classList.add("col-1");
-       var tDiv2 = document.createElement("div");
-       this.appendChild(tDiv2).classList.add("col-10");
-       var tDiv3 = document.createElement("div");
-       this.appendChild(tDiv3).classList.add("col-1");
-      });
 }
-
-
 buildCalendar();
+
