@@ -1,7 +1,7 @@
 # TITLE: EVENT CALENDAR
 
 ## Project Title: event-calendar
-Purpose: This project was created to explore JavaScript, Bootstrap and jQuery. New skills learned include dynamically updating HTML and CSS powered by jQuery,
+Purpose: This project was created to explore JavaScript 3rd Party APIs including Bootstrap and jQuery. New skills learned include dynamically updating HTML and CSS powered by jQuery,
 setting up a CSS framework (Bootstrap) and setting up and utilizing a JavaScript library (Moment.js). 
 
 
@@ -16,7 +16,7 @@ updated HTML and CSS powered by jQuery.
 
 ## Project Links
 GitHub Source Code: https://github.com/grudgecat/event-calendar  \
-Site URL/Pages link: 
+Site URL/Pages link: https://grudgecat.github.io/event-calendar/ 
 
 ***
 ## Dependencies 
@@ -61,4 +61,18 @@ Including imported fonts from Google Fonts and Fontawesome as follows:
 ***
 ## Expected Behavior 
 _Pseudocode/Expected bevhavior:_   
-
+GIVEN I am using a daily planner to create a schedule
+WHEN I open the planner
+THEN the current day is displayed at the top of the calendar
+WHEN I scroll down
+THEN I am presented with timeblocks for standard business hours
+WHEN I view the timeblocks for that day
+THEN each timeblock is color coded to indicate whether it is in the past, present, or future
+WHEN I click into a timeblock
+THEN I can enter an event
+WHEN I click the save button for that timeblock
+THEN the text for that event is saved in local storage
+WHEN I refresh the page
+THEN the saved events persist
+WHEN I click the Clear Calendar button
+THEN the events are cleared off page and out of local memory and page is refreshed.

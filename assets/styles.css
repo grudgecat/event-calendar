@@ -44,6 +44,10 @@ textarea {
   border: 2px solid black;
 }
 
+.col-1:hover {
+  opacity: 50%;
+}
+
 .col-2 {
   font-size: 2em;
   border: 2px solid black;

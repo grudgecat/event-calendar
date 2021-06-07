@@ -47,9 +47,7 @@ function addEvents() {
         for(i = 0; i < eList.length; i++) {
             rowNum = eList[i].location;
             eventData = eList[i].event;
-            console.log(rowNum);
-            console.log(eventData);
-
+            //match saved location and current rows before writing data
             for(j=0; j < numTimeSlots; j++) {
                 if(j == rowNum) {
                     $(`#eventBox${j}`).text(eventData);  
@@ -148,6 +146,7 @@ $(document).on('click', '.col-1', function () {
     eList
     .push(tempEvent);
     localStorage.setItem("eList", JSON.stringify(eList));
+    alert("Event data saved."); 
 });
 
 //BUILD WEBPAGE/CALL FUNCTIONS
