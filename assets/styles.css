@@ -44,7 +44,13 @@ textarea {
   border: 2px solid black;
 }
 
-.col-10 {
+.col-2 {
+  font-size: 2em;
+  border: 2px solid black;
+}
+
+.col-9 {
+  font-size: 2em;
   border: 2px solid black;
 }
 
