@@ -1,14 +1,10 @@
 //DECLARE GLOBAL VARIABLES
 //-----------------------------------------------------------------------//
 var today = moment(); 
-var times = ["8 AM","9 AM","10 AM","11 AM","12 PM","1 PM","2 PM","3 PM","4 PM","5 PM"]; 
 var numTimeSlots = 10;
-// var url_sm = "./assets/lock_sm.png"; 
 var url = "./assets/lock.png";
 var manipDate = new moment().set({'hour': 8});
-
 var eList = JSON.parse(localStorage.getItem("eList")) || [];
-
 
 //DECLARE FUNCTIONS
 //-----------------------------------------------------------------------//
@@ -22,7 +18,7 @@ function currentTime() {
         // colorCodeCalendar(); 
     }, 1000);
   }
-
+//set clock/time of day
 currentTime();
 
 //-----------------------------------------------------------------------//
@@ -40,28 +36,25 @@ function buildCalendar() {
     }
 }
 
-//fill current events stored in local storage
-if(eList.length > 0){
-    // console.log(eList); 
-    var rowNum = 0;
-    var eventData = 0;
+//add any stored events to calendar
+function addEvents() {
+    //fill current events stored in local storage
+    if(eList.length > 0){
+        // console.log(eList); 
+        var rowNum = 0;
+        var eventData = 0;
 
-    for(i = 0; i < eList.length; i++) {
-        rowNum = eList[i].location;
-        eventData = eList[i].event;
-        console.log(rowNum);
-        console.log(eventData);
+        for(i = 0; i < eList.length; i++) {
+            rowNum = eList[i].location;
+            eventData = eList[i].event;
+            console.log(rowNum);
+            console.log(eventData);
 
-        for(j=0; j < numTimeSlots; j++) {
-            if(j == rowNum) {
-                // console.log("row " + j + "match for row location " + rowNum + " gets " + eventData); 
-                //DESIRED BEHAVIOR: to put `eventData` into `eventBox[j]`
-                //SAMPLE OF WHAT EXPECTED TO WORK BUT DIDN'T
-                // $(`#eventBox${j}`).innerHTML = eventData; 
-                // var tempEl = document.getElementById("eventBox0"); 
-                // console.log(tempEl);  returns NULL 
-                // tempEl.innerHTML = eventData; 
-                
+            for(j=0; j < numTimeSlots; j++) {
+                if(j == rowNum) {
+                    $(`#eventBox${j}`).text(eventData);  
+
+                }
             }
         }
     }
@@ -126,21 +119,26 @@ function colorCodeCalendar() {
     }
 }
 
+//if Clear Calendar button is clicked, clear events in calendar and local storage, reload page.
 function clearMemory() {
     localStorage.clear();
+    for(i = 0; i < numTimeSlots; i++) {
+        $(`#eventBox${i}`).text("");  
+    }
+    setTimeout(function(){ location.reload(); }, 500); 
     return "";
 }
 
 //ADD EVENT LISTENERS
 //-----------------------------------------------------------------------//
 
-//Listen for click on an event box
+//Listen for click on an event box, prompt user for event & add to page.
 $(document).on('click', '.col-9', function () {
     var userEvent = prompt("Please enter the event/task details below:");
     this.innerHTML = userEvent;
 });
 
-
+//Listen for click on 'save icon', save event data to localStorage.
 $(document).on('click', '.col-1', function () {
     var tempIndex = this.id.slice(-1);
     var tempEvent = {
@@ -148,12 +146,12 @@ $(document).on('click', '.col-1', function () {
         location: `${tempIndex}`
     };
     eList
-.push(tempEvent);
-    localStorage.setItem("eList", JSON.stringify(eList)); 
+    .push(tempEvent);
+    localStorage.setItem("eList", JSON.stringify(eList));
 });
 
 //BUILD WEBPAGE/CALL FUNCTIONS
 //-----------------------------------------------------------------------//
 buildCalendar();
 colorCodeCalendar();
-
+addEvents();
