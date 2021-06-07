@@ -2,9 +2,12 @@
 //-----------------------------------------------------------------------//
 var today = moment(); 
 var times = ["8 AM","9 AM","10 AM","11 AM","12 PM","1 PM","2 PM","3 PM","4 PM","5 PM"]; 
+var numTimeSlots = 10;
 // var url_sm = "./assets/lock_sm.png"; 
 var url = "./assets/lock.png";
 var manipDate = new moment().set({'hour': 8});
+
+var eList = JSON.parse(localStorage.getItem("eList")) || [];
 
 
 //DECLARE FUNCTIONS
@@ -26,7 +29,7 @@ currentTime();
 //Build calendar framework
 function buildCalendar() {
     //build the rows
-    for(i = 0; i < times.length; i++) {
+    for(i = 0; i < numTimeSlots; i++) {
         $('#calendarContainer').append(`
             <div id="row${i}" class="row">
             <div id="timeBox${i}" class="col-2">${manipDate.format("h a")}</div>
@@ -37,6 +40,33 @@ function buildCalendar() {
     }
 }
 
+//fill current events stored in local storage
+if(eList.length > 0){
+    // console.log(eList); 
+    var rowNum = 0;
+    var eventData = 0;
+
+    for(i = 0; i < eList.length; i++) {
+        rowNum = eList[i].location;
+        eventData = eList[i].event;
+        console.log(rowNum);
+        console.log(eventData);
+
+        for(j=0; j < numTimeSlots; j++) {
+            if(j == rowNum) {
+                // console.log("row " + j + "match for row location " + rowNum + " gets " + eventData); 
+                //DESIRED BEHAVIOR: to put `eventData` into `eventBox[j]`
+                //SAMPLE OF WHAT EXPECTED TO WORK BUT DIDN'T
+                // $(`#eventBox${j}`).innerHTML = eventData; 
+                // var tempEl = document.getElementById("eventBox0"); 
+                // console.log(tempEl);  returns NULL 
+                // tempEl.innerHTML = eventData; 
+                
+            }
+        }
+    }
+}
+
 //color code calendar according to time of day
 function colorCodeCalendar() {
     // var temptime = new moment().set('hour',6).format('h a'); for testing
@@ -44,7 +74,7 @@ function colorCodeCalendar() {
     var tt_num = temptime.slice(0, -3);
     var tt_ampm = temptime.slice(-2);
     
-    for(i = 0; i < times.length; i++) { 
+    for(i = 0; i < numTimeSlots; i++) { 
         var bt_num = $(`#timeBox${i}`).text().slice(0, -3);
         var bt_ampm = $(`#timeBox${i}`).text().slice(-2);
         bt_num = parseInt(bt_num);
@@ -96,6 +126,10 @@ function colorCodeCalendar() {
     }
 }
 
+function clearMemory() {
+    localStorage.clear();
+    return "";
+}
 
 //ADD EVENT LISTENERS
 //-----------------------------------------------------------------------//
@@ -106,8 +140,6 @@ $(document).on('click', '.col-9', function () {
     this.innerHTML = userEvent;
 });
 
-var elog = JSON.parse(localStorage.getItem("elog")) || [];
-// console.log(elog); 
 
 $(document).on('click', '.col-1', function () {
     var tempIndex = this.id.slice(-1);
@@ -115,9 +147,9 @@ $(document).on('click', '.col-1', function () {
         event: $(`#eventBox${tempIndex}`).text(),
         location: `${tempIndex}`
     };
-    console.log(tempEvent); 
-    elog.push(tempEvent);
-    localStorage.setItem("elog", JSON.stringify(elog)); 
+    eList
+.push(tempEvent);
+    localStorage.setItem("eList", JSON.stringify(eList)); 
 });
 
 //BUILD WEBPAGE/CALL FUNCTIONS
